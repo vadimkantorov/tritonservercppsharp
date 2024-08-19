@@ -28,7 +28,7 @@ jobs:
               var options = driver.Options;
               options.GeneratorKind = CppSharp.Generators.GeneratorKind.CSharp;
               var module = options.AddModule("TritonServerCppSharp");
-              module.IncludeDirs.Add("core/include/triton/core");
+              //module.IncludeDirs.Add(".");
               module.Headers.Add("core/include/triton/core/tritonserver.h");
               module.Headers.Add("core/include/triton/core/tritonbackend.h");
               module.Headers.Add("core/include/triton/core/tritoncache.h");
@@ -59,9 +59,8 @@ jobs:
           
           cp -r ./CppSharp/bin/Release_x64/libCppSharp.CppParser.so ./CppSharp/bin/Release_x64/libStd-symbols.so ./CppSharp/bin/Release_x64/lib .
           
-          ./CppSharp/bin/Release_x64/CppSharp.CLI
           mkdir output && ./CppSharp/bin/Release_x64/CppSharp.CLI -g csharp -p linux -a x64 -o ./output/ core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
-          
+          echo AFTER CLI
           
           #DOTNETSDKVER=$(dotnet --version)
           #DOTNETFWKVER=$(dotnet --list-runtimes | grep Microsoft.NETCore.App | tail -n 1 | cut -d " " -f2)
@@ -82,7 +81,7 @@ jobs:
           echo BEFORE
           mkdir -p bin/x64/Debug/net8.0
           cp -r lib bin/x64/Debug/net8.0/lib
-          LD_PRELOAD=$PWD/libCppSharp.CppParser.so:$PWD/libStd-symbols.so strace -f dotnet run
+          LD_PRELOAD=$PWD/libCppSharp.CppParser.so:$PWD/libStd-symbols.so dotnet run
 
       
 #      - uses: actions/upload-artifact@v4
