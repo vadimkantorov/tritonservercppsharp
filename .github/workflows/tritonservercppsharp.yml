@@ -1,4 +1,4 @@
-name: make
+name: tritonservercppsharp
 
 on: workflow_dispatch
 
@@ -6,7 +6,7 @@ env:
   PLATFORM: x64
 
 jobs:
-  make:
+  tritonservercppsharp:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
@@ -23,7 +23,7 @@ jobs:
                 void Setup(CppSharp.Driver driver) {
                     var options = driver.Options;
                     options.GeneratorKind = GeneratorKind.CSharp;
-                    var module = options.AddModule("TritonServer");
+                    var module = options.AddModule("TritonServerCppSharp");
                     module.IncludeDirs.Add("core/include");
                     module.Headers.Add("triton/core/tritonserver.h");
                     //module.LibraryDirs.Add("/path/to/triton/server.so");
