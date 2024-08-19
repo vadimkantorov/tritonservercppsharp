@@ -55,9 +55,10 @@ jobs:
           git clone --single-branch --depth 1 --branch r24.08 https://github.com/triton-inference-server/core
           git clone --single-branch --depth 1 --branch r24.08 https://github.com/triton-inference-server/developer_tools
           
-          cp -r ./CppSharp/bin/Release_x64/libCppSharp.CppParser.so ./CppSharp/bin/Release_x64/libStd-symbols.so ./CppSharp/bin/Release_x64/lib .
+          #cp -r ./CppSharp/bin/Release_x64/libCppSharp.CppParser.so ./CppSharp/bin/Release_x64/libStd-symbols.so ./CppSharp/bin/Release_x64/lib .
           
           ./CppSharp/bin/Release_x64/CppSharp.CLI -m tritonserver -g csharp -p linux -a x64 -o ./output1/ -I=core/include core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
+          
           echo AFTER CLI
           
           mkdir -p bin/x64/Release/net8.0
