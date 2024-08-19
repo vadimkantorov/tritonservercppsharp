@@ -1,0 +1,30 @@
+name: make
+
+on: workflow_dispatch
+
+env:
+  PLATFORM: x64
+
+jobs:
+  make:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Clone dependencies
+        run: |
+          git clone https://github.com/triton-inference-server/core # core/include/triton/core/tritonserver.h
+          git clone https://github.com/mono/CppSharp
+
+      - name: Build CppSharp
+        run: |
+          bash build/build.sh generate -configuration Release -platform $PLATFORM
+          bash build/build.sh download_llvm -platform $PLATFORM
+          bash build/build.sh restore -platform $PLATFORM
+          bash build/build.sh -platform $PLATFORM -build_only
+
+
+      
+#      - uses: actions/upload-artifact@v4
+#        with:
+#          path: archive.zip
