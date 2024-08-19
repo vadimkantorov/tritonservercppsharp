@@ -49,7 +49,7 @@ jobs:
           #"$HOME/.dotnet"
           DOTNET_ROOT=/usr/share/dotnet
           DOTNETSDKVER=$(dotnet --version)
-          DOTNETFWKVER=$(dotnet --list-runtimes | grep Microsoft.NETCore.App | tail -n 1 | cut -d " " -f2)
+          DOTNETFWKVER=$(dotnet --list-runtimes | grep Microsoft.NETCore.App | head -n 1 | cut -d " " -f2)
           DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
           dotnet --version
           dotnet --list-runtimes 
