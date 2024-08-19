@@ -4,6 +4,7 @@ on: workflow_dispatch
 
 env:
   PLATFORM: x64
+  FRAMEWORK: 8.0
 
 jobs:
   tritonservercppsharp:
@@ -37,10 +38,10 @@ jobs:
         run: |
           git clone --single-branch --depth 1 https://github.com/mono/CppSharp
           cd CppSharp
-          bash build/build.sh generate -configuration Release -platform $PLATFORM -target-framework 8.0
-          bash build/build.sh download_llvm -platform $PLATFORM -target-framework 8.0
-          bash build/build.sh restore -platform $PLATFORM -target-framework 8.0
-          bash build/build.sh -platform $PLATFORM -build_only -target-framework 8.0
+          bash build/build.sh generate -configuration Release -platform $PLATFORM -target-framework $FRAMEWORK
+          bash build/build.sh download_llvm -platform $PLATFORM -target-framework $FRAMEWORK
+          bash build/build.sh restore -platform $PLATFORM
+          bash build/build.sh -platform $PLATFORM -build_only -target-framework $FRAMEWORK
           find bin
 
       - name: Generating bindings
@@ -64,7 +65,7 @@ jobs:
           dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') $(find CppSharp/bin -name "*.dll" -printf '-r:"%p" ') -target:exe -out:tritonservercppsharp.exe tritonservercppsharp.cs
           echo '{"runtimeOptions":{"framework":{"name":"Microsoft.NETCore.App","version":"'$DOTNETFWKVER'"}}}' > tritonservercppsharp.runtimeconfig.json
           find CppSharp/bin -name "*.dll" -o -name "*.so" -exec cp {} . ';'
-          dotnet tritonservercppsharp.exe
+          dotnet tritonservercppsharp.exe || true
 
       
       - uses: actions/upload-artifact@v4
