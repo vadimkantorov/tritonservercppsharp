@@ -58,7 +58,7 @@ jobs:
           # -r:CppSharp/bin/Release_x64/CppSharp.dll -r:CppSharp/bin/Release_x64/CppSharp.AST.dll -r:CppSharp/bin/Release_x64/CppSharp.Parser.dll
           export LD_LIBRARY_PATH=CppSharp/bin/Release_x64/
           dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll"  $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') $(find CppSharp/bin/ -name "*.dll" -printf '-r:"%p" ')  -target:library -out:tritonservercppsharp.exe tritonservercppsharp.cs
-          echo '{"runtimeOptions":{"framework":{"name":"Microsoft.NETCore.App","version":"' $DONETFWKVER '"}}}' > runtimeconfig.json
+          echo '{"runtimeOptions":{"tfm":"net8.0","framework":{"name":"Microsoft.NETCore.App","version":"' $DONETFWKVER '"}}}' > tritonservercppsharp.runtimeconfig.json
           dotnet ./tritonservercppsharp.exe
           find
 
