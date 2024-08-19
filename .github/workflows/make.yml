@@ -26,11 +26,13 @@ jobs:
           dotnet --version
           msbuild --version
           git clone --single-branch --depth 1 https://github.com/triton-inference-server/core
-          #DOTNET_ROOT="$HOME/.dotnet"
-          #DOTNETSDKVER=$("$DOTNET_ROOT/dotnet" --version)
-          #DOTNETFWKVER=$("$DOTNET_ROOT/dotnet" --list-runtimes | grep Microsoft.NETCore.App | tail -n 1 | cut -d' ' -f2)
-          #DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
-          #"$DOTNET_ROOT/dotnet" "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ')  -target:library -out:csharpfrompython.dll csharpfrompython.cs
+          DOTNET_ROOT="$HOME/.dotnet"
+          DOTNETSDKVER=$(dotnet --version)
+          DOTNETFWKVER=$(dotnet --list-runtimes | grep Microsoft.NETCore.App | tail -n 1 | cut -d " " -f2)
+          DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
+          ls "$DOTNETLIBDIR"
+          ls "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll"
+          #dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ')  -target:library -out:csharpfrompython.dll csharpfrompython.cs
 
       
 #      - uses: actions/upload-artifact@v4
