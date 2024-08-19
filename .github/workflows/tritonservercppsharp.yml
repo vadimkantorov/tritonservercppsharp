@@ -28,6 +28,7 @@ jobs:
               var options = driver.Options;
               options.GeneratorKind = CppSharp.Generators.GeneratorKind.CSharp;
               var module = options.AddModule("tritonserver");
+              options.OutputDir = "output2";
               module.IncludeDirs.Add(".");
               module.IncludeDirs.Add("core/include");
               module.Headers.Add("core/include/triton/core/tritonserver.h");
@@ -56,7 +57,7 @@ jobs:
           
           cp -r ./CppSharp/bin/Release_x64/libCppSharp.CppParser.so ./CppSharp/bin/Release_x64/libStd-symbols.so ./CppSharp/bin/Release_x64/lib .
           
-          ./CppSharp/bin/Release_x64/CppSharp.CLI -m tritonserver -g csharp -p linux -a x64 -o ./output/ -I=core/include core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
+          ./CppSharp/bin/Release_x64/CppSharp.CLI -m tritonserver -g csharp -p linux -a x64 -o ./output1/ -I=core/include core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
           echo AFTER CLI
           
           mkdir -p bin/x64/Release/net8.0
@@ -67,6 +68,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           path: |
-            output/
-            Std.cs
-            TritonServerCppSharp.cs
+            output1/
+            output2/
