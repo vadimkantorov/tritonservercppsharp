@@ -61,8 +61,7 @@ jobs:
           
           echo AFTER CLI
           
-          mkdir -p bin/x64/Release/net8.0
-          cp -r lib bin/x64/Release/net8.0/lib
+          mkdir -p bin/x64/Release/net8.0 && cp -r ./CppSharp/bin/Release_x64/lib bin/x64/Release/net8.0/lib
           LD_PRELOAD=$PWD/libCppSharp.CppParser.so:$PWD/libStd-symbols.so dotnet run -c Release
 
       
