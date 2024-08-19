@@ -1,3 +1,3 @@
 # Example of generating C# bindings to the C-API interface of Triton Inference Server
 
-Check out the [tritonservercppsharp.yml](./.github/workflows/tritonservercppsharp.yml) for the complete script
+See the complete script at [tritonservercppsharp.yml](./.github/workflows/tritonservercppsharp.yml)
