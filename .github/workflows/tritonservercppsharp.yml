@@ -50,7 +50,8 @@ jobs:
 
       - name: Generating bindings
         run: |
-          git clone --single-branch --depth 1 https://github.com/triton-inference-server/core
+          git clone --single-branch --depth 1 --branch r24.08 https://github.com/triton-inference-server/core
+          git clone --single-branch --depth 1 --branch r24.08 https://github.com/triton-inference-server/developer_tools
           dotnet --version
           dotnet --list-runtimes 
           #ls $DOTNET_ROOT/shared/Microsoft.NETCore.App
