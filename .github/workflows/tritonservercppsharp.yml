@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 env:
   PLATFORM: x64
-  FRAMEWORK: 8.0
+  FRAMEWORK: net80
 
 jobs:
   tritonservercppsharp:
@@ -40,7 +40,7 @@ jobs:
           cd CppSharp
           bash build/build.sh generate -configuration Release -platform $PLATFORM -target-framework $FRAMEWORK
           bash build/build.sh download_llvm -platform $PLATFORM -target-framework $FRAMEWORK
-          bash build/build.sh restore -platform $PLATFORM
+          bash build/build.sh restore -platform $PLATFORM -target-framework $FRAMEWORK
           bash build/build.sh -platform $PLATFORM -build_only -target-framework $FRAMEWORK
           find bin
 
