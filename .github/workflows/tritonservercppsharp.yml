@@ -58,6 +58,7 @@ jobs:
           
           cp ./CppSharp/bin/Release_x64/libCppSharp.CppParser.so ./CppSharp/bin/Release_x64/libStd-symbols.so .
           
+          ./CppSharp/bin/Release_x64/CppSharp.CLI
           mkdir output && ./CppSharp/bin/Release_x64/CSharp.Gen -I core/include/triton/core -o ./output/
           
           
