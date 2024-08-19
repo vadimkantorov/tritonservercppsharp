@@ -20,7 +20,7 @@ jobs:
           echo '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultItems>false</EnableDefaultItems></PropertyGroup><ItemGroup><Compile Remove="**/*.cs"/><Compile Include="tritonservercppsharp.cs"/><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Runtime.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.AST.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Generator.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.CLI.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.CSharp.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.Bootstrap.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.Gen.dll</HintPath></Reference></ItemGroup></Project>' > tritonservercppsharp.csproj 
           tee tritonservercppsharp.cs <<EOF
               namespace CppSharpTransformer { public class DllDemoGenerator : CppSharp.ILibrary {
-              public static void Main(string[] args) { System.Console.WriteLine(System.Environment.CurrentDirectory); CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); }
+              public static void Main(string[] args) { CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); }
               public void SetupPasses(CppSharp.Driver driver) { }
               public void Preprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
               public void Postprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
@@ -80,9 +80,10 @@ jobs:
           #./tritonservercppsharp
           #strace -ff dotnet tritonservercppsharp.exe || true
           echo BEFORE
-          mkdir -p bin/x64/Debug/net8.0
-          cp -r lib bin/x64/Debug/net8.0/lib
+          #mkdir -p bin/x64/Debug/net8.0
+          #cp -r lib bin/x64/Debug/net8.0/lib
           LD_PRELOAD=$PWD/libCppSharp.CppParser.so:$PWD/libStd-symbols.so dotnet run
+          find -name 'Std.cs'
 
       
 #      - uses: actions/upload-artifact@v4
