@@ -52,6 +52,7 @@ jobs:
           git clone --single-branch --depth 1 https://github.com/triton-inference-server/core
           dotnet --version
           dotnet --list-runtimes 
+          ls $DOTNET_ROOT/shared/Microsoft.NETCore.App
           DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
           #DOTNETSDKVER=$(dotnet --version)
           #DOTNETFWKVER=$(dotnet --list-runtimes | grep Microsoft.NETCore.App | tail -n 1 | cut -d " " -f2)
@@ -65,7 +66,7 @@ jobs:
           dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') $(find CppSharp/bin -name "*.dll" -printf '-r:"%p" ') -target:exe -out:tritonservercppsharp.exe tritonservercppsharp.cs
           echo '{"runtimeOptions":{"framework":{"name":"Microsoft.NETCore.App","version":"'$DOTNETFWKVER'"}}}' > tritonservercppsharp.runtimeconfig.json
           find CppSharp/bin -name "*.dll" -o -name "*.so" -exec cp {} . ';'
-          dotnet tritonservercppsharp.exe || true
+          strace -ff dotnet tritonservercppsharp.exe
 
       
       - uses: actions/upload-artifact@v4
