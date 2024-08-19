@@ -5,6 +5,9 @@ on: workflow_dispatch
 env:
   PLATFORM: x64
   FRAMEWORK: net80
+  DOTNET_ROOT: /usr/share/dotnet
+  DOTNETSDKVER: 8.0.303
+  DOTNETFWKVER: 8.0.7
 
 jobs:
   tritonservercppsharp:
@@ -49,9 +52,6 @@ jobs:
           git clone --single-branch --depth 1 https://github.com/triton-inference-server/core
           dotnet --version
           dotnet --list-runtimes 
-          DOTNET_ROOT=/usr/share/dotnet
-          DOTNETSDKVER=8.0.303
-          DOTNETFWKVER=8.0.7
           DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
           #DOTNETSDKVER=$(dotnet --version)
           #DOTNETFWKVER=$(dotnet --list-runtimes | grep Microsoft.NETCore.App | tail -n 1 | cut -d " " -f2)
