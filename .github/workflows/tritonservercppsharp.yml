@@ -80,8 +80,8 @@ jobs:
           #./tritonservercppsharp
           #strace -ff dotnet tritonservercppsharp.exe || true
           echo BEFORE
-          #mkdir -p bin/x64/Debug/net8.0
-          #cp -r lib bin/x64/Debug/net8.0/lib
+          mkdir -p bin/x64/Debug/net8.0
+          cp -r lib bin/x64/Debug/net8.0/lib
           LD_PRELOAD=$PWD/libCppSharp.CppParser.so:$PWD/libStd-symbols.so dotnet run
           find -name 'Std.cs'
 
