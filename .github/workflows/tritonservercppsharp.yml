@@ -37,9 +37,9 @@ jobs:
         run: |
           git clone --single-branch --depth 1 https://github.com/mono/CppSharp
           cd CppSharp
-          bash build/build.sh generate -configuration Release -platform $PLATFORM
-          bash build/build.sh download_llvm -platform $PLATFORM
-          bash build/build.sh restore -platform $PLATFORM
+          bash build/build.sh generate -configuration Release -platform $PLATFORM -target-framework 8.0
+          bash build/build.sh download_llvm -platform $PLATFORM -target-framework 8.0
+          bash build/build.sh restore -platform $PLATFORM -target-framework 8.0
           bash build/build.sh -platform $PLATFORM -build_only -target-framework 8.0
           find bin
 
@@ -48,23 +48,19 @@ jobs:
           git clone --single-branch --depth 1 https://github.com/triton-inference-server/core
           dotnet --version
           dotnet --list-runtimes 
-          #"$HOME/.dotnet"
           DOTNET_ROOT=/usr/share/dotnet
           DOTNETSDKVER=8.0.303
           DOTNETFWKVER=8.0.7
           DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
           #DOTNETSDKVER=$(dotnet --version)
           #DOTNETFWKVER=$(dotnet --list-runtimes | grep Microsoft.NETCore.App | tail -n 1 | cut -d " " -f2)
-          # -r:CppSharp/bin/Release_x64/CppSharp.dll -r:CppSharp/bin/Release_x64/CppSharp.AST.dll -r:CppSharp/bin/Release_x64/CppSharp.Parser.dll
           
-          #echo 'namespace ProgramNamespace { public static class Program { public static void Main(string[] args) { System.Console.WriteLine("Hello world!"); } } }' > footest.cs
-          #dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') -target:exe -out:footest.exe footest.cs
-          #echo '{"runtimeOptions":{"framework":{"name":"Microsoft.NETCore.App","version":"'$DOTNETFWKVER'"}}}' > footest.runtimeconfig.json
-          #dotnet footest.exe
+          echo 'namespace ProgramNamespace { public static class Program { public static void Main(string[] args) { System.Console.WriteLine("Hello world!"); } } }' > footest.cs
+          dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') -target:exe -out:footest.exe footest.cs
+          echo '{"runtimeOptions":{"framework":{"name":"Microsoft.NETCore.App","version":"'$DOTNETFWKVER'"}}}' > footest.runtimeconfig.json
+          dotnet footest.exe
 
-          find CppSharp/bin/Release_x64 -name 'CppSharp*.dll'
           # -r:CppSharp/bin/Release_x64/CppSharp.dll -r:CppSharp/bin/Release_x64/CppSharp.AST.dll -r:CppSharp/bin/Release_x64/CppSharp.Runtime.dll -r:CppSharp/bin/Release_x64/CppSharp.CLI.dll -r:CppSharp/bin/Release_x64/CppSharp.Parser.dll -r:CppSharp/bin/Release_x64/CppSharp.Parser.CSharp.dll -r:CppSharp/bin/Release_x64/CppSharp.Parser.Bootstrap.dll -r:CppSharp/bin/Release_x64/CppSharp.Parser.Gen.dll
-
           dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') $(find CppSharp/bin -name "*.dll" -printf '-r:"%p" ') -target:exe -out:tritonservercppsharp.exe tritonservercppsharp.cs
           echo '{"runtimeOptions":{"framework":{"name":"Microsoft.NETCore.App","version":"'$DOTNETFWKVER'"}}}' > tritonservercppsharp.runtimeconfig.json
           find CppSharp/bin -name "*.dll" -o -name "*.so" -exec cp {} . ';'
