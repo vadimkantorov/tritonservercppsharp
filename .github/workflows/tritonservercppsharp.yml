@@ -14,13 +14,12 @@ jobs:
       - name: Write down the bindings code
         run: |
           tee tritonservercppsharp.cs <<EOF
-            namespace CppSharpTransformer { class DllDemoGenerator : CppSharp.ILibrary {
+            namespace CppSharpTransformer { public class DllDemoGenerator : CppSharp.ILibrary {
                 public static void Main(string[] args) { CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); }
                 public void SetupPasses(CppSharp.Driver driver) { }
                 public void Preprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
                 public void Postprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
-                void CppSharp.ILibrary.Setup(CppSharp.Driver driver) { }
-                void Setup(CppSharp.Driver driver) {
+                public void Setup(CppSharp.Driver driver) {
                     var options = driver.Options;
                     options.GeneratorKind = CppSharp.Generators.GeneratorKind.CSharp;
                     var module = options.AddModule("TritonServerCppSharp");
