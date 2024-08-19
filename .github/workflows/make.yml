@@ -18,11 +18,12 @@ jobs:
 
       - name: Build CppSharp
         run: |
+          cd CppSharp
           bash build/build.sh generate -configuration Release -platform $PLATFORM
           bash build/build.sh download_llvm -platform $PLATFORM
           bash build/build.sh restore -platform $PLATFORM
           bash build/build.sh -platform $PLATFORM -build_only
-
+          find
 
       
 #      - uses: actions/upload-artifact@v4
