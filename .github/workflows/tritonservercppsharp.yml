@@ -14,25 +14,23 @@ jobs:
       - name: Write down the bindings code
         run: |
           tee tritonservercppsharp.cs <<EOF
-            namespace CppSharpTransformer { 
-            public static class Program { public static void Main(string[] args) { CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); } }
-            public class DllDemoGenerator : CppSharp.ILibrary {
-                public void SetupPasses(CppSharp.Driver driver) { }
-                public void Preprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
-                public void Postprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
-                public void Setup(CppSharp.Driver driver) {
-                    var options = driver.Options;
-                    options.GeneratorKind = CppSharp.Generators.GeneratorKind.CSharp;
-                    var module = options.AddModule("TritonServerCppSharp");
-                    module.IncludeDirs.Add("core/include");
-                    module.Headers.Add("triton/core/tritonserver.h");
-                    module.Headers.Add("triton/core/tritonbackend.h");
-                    module.Headers.Add("triton/core/tritoncache.h");
-                    module.Headers.Add("triton/core/tritonrepoagent.h");
-                    //module.LibraryDirs.Add("/path/to/triton/server.so");
-                    //module.Libraries.Add("tritonserver.so");
-                }
-            } }
+              namespace CppSharpTransformer { public class DllDemoGenerator : CppSharp.ILibrary {
+              public static void Main(string[] args) { CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); }
+              public void SetupPasses(CppSharp.Driver driver) { }
+              public void Preprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
+              public void Postprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
+              public void Setup(CppSharp.Driver driver) {
+              var options = driver.Options;
+              options.GeneratorKind = CppSharp.Generators.GeneratorKind.CSharp;
+              var module = options.AddModule("TritonServerCppSharp");
+              module.IncludeDirs.Add("core/include");
+              module.Headers.Add("triton/core/tritonserver.h");
+              module.Headers.Add("triton/core/tritonbackend.h");
+              module.Headers.Add("triton/core/tritoncache.h");
+              module.Headers.Add("triton/core/tritonrepoagent.h");
+              //module.LibraryDirs.Add("/path/to/triton/server.so");
+              //module.Libraries.Add("tritonserver.so");
+              } } }
           EOF
 
       - name: Clone and build CppSharp
@@ -59,10 +57,10 @@ jobs:
           echo $DOTNETSDKVER $DOTNETFWKVER
           # -r:CppSharp/bin/Release_x64/CppSharp.dll -r:CppSharp/bin/Release_x64/CppSharp.AST.dll -r:CppSharp/bin/Release_x64/CppSharp.Parser.dll
           
-          echo 'namespace ProgramNamespace { public static class Program { public static void Main(string[] args) { System.Console.WriteLine("Hello world!"); } } }' > footest.cs
-          dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') -target:exe -out:footest.exe footest.cs
-          echo '{"runtimeOptions":{"framework":{"name":"Microsoft.NETCore.App","version":"'$DOTNETFWKVER'"}}}' > footest.runtimeconfig.json
-          dotnet footest.exe
+          #echo 'namespace ProgramNamespace { public static class Program { public static void Main(string[] args) { System.Console.WriteLine("Hello world!"); } } }' > footest.cs
+          #dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') -target:exe -out:footest.exe footest.cs
+          #echo '{"runtimeOptions":{"framework":{"name":"Microsoft.NETCore.App","version":"'$DOTNETFWKVER'"}}}' > footest.runtimeconfig.json
+          #dotnet footest.exe
 
           find CppSharp/bin/Release_x64 -name 'CppSharp*.dll'
 
