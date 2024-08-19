@@ -57,7 +57,7 @@ jobs:
           #DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
           
           mkdir output
-          cp ./CppSharp/bin/Release_x64/CppSharp.CppParser.so .
+          cp ./CppSharp/bin/Release_x64/libCppSharp.CppParser.so ./CppSharp/bin/Release_x64/libStd-symbols.so .
           ./CppSharp/bin/Release_x64/CSharp.Gen -I core/include/triton/core -o ./output/
           
           
