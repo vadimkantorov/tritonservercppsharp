@@ -86,11 +86,9 @@ jobs:
           find -name 'Std.cs'
 
       
-#      - uses: actions/upload-artifact@v4
-#        with:
-#          path: |
-#            testproj/
-#            CppSharp/bin/
-#            tritonservercppsharp.cs
-#            tritonservercppsharp.runtimeconfig.json
-#            tritonservercppsharp.exe
+      - uses: actions/upload-artifact@v4
+        with:
+          path: |
+            output/
+            Std.cs
+            TritonServerCppSharp.cs
