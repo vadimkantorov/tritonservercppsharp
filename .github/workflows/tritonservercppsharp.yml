@@ -60,7 +60,7 @@ jobs:
           cp -r ./CppSharp/bin/Release_x64/libCppSharp.CppParser.so ./CppSharp/bin/Release_x64/libStd-symbols.so ./CppSharp/bin/Release_x64/lib .
           
           ./CppSharp/bin/Release_x64/CppSharp.CLI
-          mkdir output && ./CppSharp/bin/Release_x64/CppSharp.CLI -g csharp -o ./output/ -I=core/include/triton/core core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
+          mkdir output && ./CppSharp/bin/Release_x64/CppSharp.CLI -g csharp -p linux -a x64 -o ./output/ core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
           
           
           #DOTNETSDKVER=$(dotnet --version)
@@ -79,9 +79,10 @@ jobs:
           #find CppSharp/bin -name "*.dll" -o -name "*.so" -exec cp {} . ';'
           #./tritonservercppsharp
           #strace -ff dotnet tritonservercppsharp.exe || true
+          echo BEFORE
           mkdir -p bin/x64/Debug/net8.0
           cp -r lib bin/x64/Debug/net8.0/lib
-          LD_PRELOAD=$PWD/libCppSharp.CppParser.so:$PWD/libStd-symbols.so dotnet run
+          LD_PRELOAD=$PWD/libCppSharp.CppParser.so:$PWD/libStd-symbols.so strace -f dotnet run
 
       
 #      - uses: actions/upload-artifact@v4
