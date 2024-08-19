@@ -79,7 +79,9 @@ jobs:
           #find CppSharp/bin -name "*.dll" -o -name "*.so" -exec cp {} . ';'
           #./tritonservercppsharp
           #strace -ff dotnet tritonservercppsharp.exe || true
-          LD_PRELOAD=$PWD/libCppSharp.CppParser.so:$PWD/libStd-symbols.so strace -f dotnet run
+          mkdir -p bin/x64/Debug/net8.0
+          cp -r lib bin/x64/Debug/net8.0/lib
+          LD_PRELOAD=$PWD/libCppSharp.CppParser.so:$PWD/libStd-symbols.so dotnet run
 
       
 #      - uses: actions/upload-artifact@v4
