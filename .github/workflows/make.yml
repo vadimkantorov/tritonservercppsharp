@@ -13,8 +13,8 @@ jobs:
 
       - name: Clone dependencies
         run: |
-          git clone https://github.com/triton-inference-server/core # core/include/triton/core/tritonserver.h
-          git clone https://github.com/mono/CppSharp
+          git clone --single-branch --depth 1 https://github.com/triton-inference-server/core
+          git clone --single-branch --depth 1 https://github.com/mono/CppSharp
 
       - name: Build CppSharp
         run: |
@@ -23,7 +23,7 @@ jobs:
           bash build/build.sh download_llvm -platform $PLATFORM
           bash build/build.sh restore -platform $PLATFORM
           bash build/build.sh -platform $PLATFORM -build_only
-          find
+          find bin
 
       
 #      - uses: actions/upload-artifact@v4
