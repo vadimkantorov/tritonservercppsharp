@@ -17,7 +17,7 @@ jobs:
 
       - name: Write down the bindings code
         run: |
-          echo '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework></PropertyGroup><ItemGroup><Compile Remove="**/*.cs"/><Compile Include="tritonservercppsharp.cs"/></ItemGroup></Project>' > tritonservercppsharp.csproj 
+          echo '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultItems>false</EnableDefaultItems></PropertyGroup><ItemGroup><Compile Remove="**/*.cs"/><Compile Include="tritonservercppsharp.cs"/></ItemGroup></Project>' > tritonservercppsharp.csproj 
           tee tritonservercppsharp.cs <<EOF
               namespace CppSharpTransformer { public class DllDemoGenerator : CppSharp.ILibrary {
               public static void Main(string[] args) { CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); }
