@@ -22,7 +22,7 @@ jobs:
                 void CppSharp.ILibrary.Setup(CppSharp.Driver driver) { }
                 void Setup(CppSharp.Driver driver) {
                     var options = driver.Options;
-                    options.GeneratorKind = GeneratorKind.CSharp;
+                    options.GeneratorKind = CppSharp.Generators.GeneratorKind.CSharp;
                     var module = options.AddModule("TritonServerCppSharp");
                     module.IncludeDirs.Add("core/include");
                     module.Headers.Add("triton/core/tritonserver.h");
