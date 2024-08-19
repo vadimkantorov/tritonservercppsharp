@@ -17,7 +17,7 @@ jobs:
 
       - name: Write down the bindings code
         run: |
-          echo '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultItems>false</EnableDefaultItems></PropertyGroup><ItemGroup><Compile Remove="**/*.cs"/><Compile Include="tritonservercppsharp.cs"/><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Runtime.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.AST.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Generator.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.CLI.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.CSharp.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.Bootstrap.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.Gen.dll</HintPath></Reference></ItemGroup></Project>' > tritonservercppsharp.csproj 
+          echo '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultItems>false</EnableDefaultItems></PropertyGroup><ItemGroup><Compile Remove="**/*.cs"/><Compile Include="tritonservercppsharp.cs"/><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Runtime.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.AST.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Generator.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.CLI.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.CSharp.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.Bootstrap.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.Gen.dll</HintPath></Reference></ItemGroup></Project>' > tritonservercppsharp.csproj 
           tee tritonservercppsharp.cs <<EOF
               namespace CppSharpTransformer { public class DllDemoGenerator : CppSharp.ILibrary {
               public static void Main(string[] args) { CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); }
@@ -28,7 +28,7 @@ jobs:
               var options = driver.Options;
               options.GeneratorKind = CppSharp.Generators.GeneratorKind.CSharp;
               var module = options.AddModule("TritonServerCppSharp");
-              //module.IncludeDirs.Add(".");
+              module.IncludeDirs.Add(".");
               module.Headers.Add("core/include/triton/core/tritonserver.h");
               module.Headers.Add("core/include/triton/core/tritonbackend.h");
               module.Headers.Add("core/include/triton/core/tritoncache.h");
@@ -59,7 +59,7 @@ jobs:
           
           cp -r ./CppSharp/bin/Release_x64/libCppSharp.CppParser.so ./CppSharp/bin/Release_x64/libStd-symbols.so ./CppSharp/bin/Release_x64/lib .
           
-          mkdir output && ./CppSharp/bin/Release_x64/CppSharp.CLI -g csharp -p linux -a x64 -o ./output/ core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
+          mkdir output && ./CppSharp/bin/Release_x64/CppSharp.CLI -g csharp -p linux -a x64 -o ./output/ -I=core/include core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
           echo AFTER CLI
           
           #DOTNETSDKVER=$(dotnet --version)
