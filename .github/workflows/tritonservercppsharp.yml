@@ -74,6 +74,7 @@ jobs:
           #find CppSharp/bin -name "*.dll" -o -name "*.so" -exec cp {} . ';'
           #./tritonservercppsharp
           #strace -ff dotnet tritonservercppsharp.exe || true
+          cp ./CppSharp/bin/Release_x64/CppSharp.CppParser.so .
           dotnet run
 
       
