@@ -29,6 +29,7 @@ jobs:
               options.GeneratorKind = CppSharp.Generators.GeneratorKind.CSharp;
               var module = options.AddModule("TritonServerCppSharp");
               module.IncludeDirs.Add(".");
+              module.IncludeDirs.Add("core/include");
               module.Headers.Add("core/include/triton/core/tritonserver.h");
               module.Headers.Add("core/include/triton/core/tritonbackend.h");
               module.Headers.Add("core/include/triton/core/tritoncache.h");
