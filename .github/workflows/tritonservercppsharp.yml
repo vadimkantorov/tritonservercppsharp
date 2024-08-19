@@ -29,10 +29,10 @@ jobs:
               options.GeneratorKind = CppSharp.Generators.GeneratorKind.CSharp;
               var module = options.AddModule("TritonServerCppSharp");
               module.IncludeDirs.Add("core/include/triton/core");
-              module.Headers.Add("tritonserver.h");
-              module.Headers.Add("tritonbackend.h");
-              module.Headers.Add("tritoncache.h");
-              module.Headers.Add("tritonrepoagent.h");
+              module.Headers.Add("core/include/triton/core/tritonserver.h");
+              module.Headers.Add("core/include/triton/core/tritonbackend.h");
+              module.Headers.Add("core/include/triton/core/tritoncache.h");
+              module.Headers.Add("core/include/triton/core/tritonrepoagent.h");
               //module.LibraryDirs.Add("/path/to/triton/server.so");
               //module.Libraries.Add("tritonserver.so");
               } } }
@@ -60,7 +60,7 @@ jobs:
           cp -r ./CppSharp/bin/Release_x64/libCppSharp.CppParser.so ./CppSharp/bin/Release_x64/libStd-symbols.so ./CppSharp/bin/Release_x64/lib .
           
           ./CppSharp/bin/Release_x64/CppSharp.CLI
-          mkdir output && ./CppSharp/bin/Release_x64/CppSharp.CLI -I=core/include/triton/core -o=./output/ tritonserver.h tritonbackend.h tritoncache.h tritonrepoagent.h
+          mkdir output && ./CppSharp/bin/Release_x64/CppSharp.CLI -g csharp -o ./output/ -I=core/include/triton/core tritonserver.h tritonbackend.h tritoncache.h tritonrepoagent.h
           
           
           #DOTNETSDKVER=$(dotnet --version)
