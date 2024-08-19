@@ -11,19 +11,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Test heredoc
+      - name: Write down the bindings code
         run: |
-          tee myfile.cs <<EOF
-            using CppSharp;
-            using CppSharp.AST;
-            using CppSharp.Generators;
-            namespace CppSharpTransformer { class DllDemoGenerator : ILibrary {
-                public static void Main(string[] args) { ConsoleDriver.Run(new DllDemoGenerator()); }
-                public void SetupPasses(Driver driver) { }
-                public void Preprocess(Driver driver, ASTContext ctx) { }
-                public void Postprocess(Driver driver, ASTContext ctx) { }
-                void ILibrary.Setup(Driver driver) { }
-                void Setup(Driver driver) {
+          tee tritonservercppsharp.cs <<EOF
+            namespace CppSharpTransformer { class DllDemoGenerator : CppSharp.ILibrary {
+                public static void Main(string[] args) { CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); }
+                public void SetupPasses(CppSharp.Driver driver) { }
+                public void Preprocess(CppSharp.Driver driver, ASTContext ctx) { }
+                public void Postprocess(CppSharp.Driver driver, ASTContext ctx) { }
+                void ILibrary.Setup(CppSharp.Driver driver) { }
+                void Setup(CppSharp.Driver driver) {
                     var options = driver.Options;
                     options.GeneratorKind = GeneratorKind.CSharp;
                     var module = options.AddModule("TritonServer");
@@ -34,7 +31,6 @@ jobs:
                 }
             } }
           EOF
-          cat myfile.cs
 
       - name: Clone and build CppSharp
         run: |
@@ -50,17 +46,16 @@ jobs:
 
       - name: Generating bindings
         run: |
-          ./CppSharp/bin/Release_x64/CLI.Gen
           git clone --single-branch --depth 1 https://github.com/triton-inference-server/core
           #"$HOME/.dotnet"
           DOTNET_ROOT=/usr/share/dotnet
           DOTNETSDKVER=$(dotnet --version)
           DOTNETFWKVER=$(dotnet --list-runtimes | grep Microsoft.NETCore.App | tail -n 1 | cut -d " " -f2)
           DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
-          LD_LIBRARY_PATH=CppSharp/bin/Release_x64/ dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" -r:CppSharp/bin/Release_x64/CppSharp.AST.dll -r:CppSharp/bin/Release_x64/CLI.Gen.dll -r:CppSharp/bin/Release_x64/CppSharp.dll -r:CppSharp/bin/Release_x64/CppSharp.Parser.dll $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ')  -target:library -out:tritonservercppsharp.exe tritonservercppsharp.cs
+          LD_LIBRARY_PATH=CppSharp/bin/Release_x64/ dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" -r:CppSharp/bin/Release_x64/CppSharp.dll -r:CppSharp/bin/Release_x64/CppSharp.AST.dll -r:CppSharp/bin/Release_x64/CppSharp.Parser.dll $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ')  -target:library -out:tritonservercppsharp.exe tritonservercppsharp.cs
           dotnet tritonservercppsharp.exe
 
       
-#      - uses: actions/upload-artifact@v4
-#        with:
-#          path: archive.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          path: CppSharp/bin/Release_x64/
