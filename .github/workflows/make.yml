@@ -34,7 +34,8 @@ jobs:
           DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
           ls "$DOTNETLIBDIR"
           ls "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll"
-          #dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ')  -target:library -out:csharpfrompython.dll csharpfrompython.cs
+          dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ')  -target:library -out:tritonservercppsharp.exe tritonservercppsharp.cs
+          dotnet tritonservercppsharp.exe
 
       
 #      - uses: actions/upload-artifact@v4
