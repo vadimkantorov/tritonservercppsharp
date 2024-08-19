@@ -11,19 +11,28 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Clone dependencies
-        run: |
-          git clone --single-branch --depth 1 https://github.com/triton-inference-server/core
-          git clone --single-branch --depth 1 https://github.com/mono/CppSharp
+      - name: Clone CppSharp
 
-      - name: Build CppSharp
+      - name: Clone and build CppSharp
         run: |
+          git clone --single-branch --depth 1 https://github.com/mono/CppSharp
           cd CppSharp
           bash build/build.sh generate -configuration Release -platform $PLATFORM
           bash build/build.sh download_llvm -platform $PLATFORM
           bash build/build.sh restore -platform $PLATFORM
           bash build/build.sh -platform $PLATFORM -build_only
           find bin
+
+      - name: Generating bindings
+        run: |
+          dotnet --version
+          msbuild --version
+          git clone --single-branch --depth 1 https://github.com/triton-inference-server/core
+          #DOTNET_ROOT="$HOME/.dotnet"
+          #DOTNETSDKVER=$("$DOTNET_ROOT/dotnet" --version)
+          #DOTNETFWKVER=$("$DOTNET_ROOT/dotnet" --list-runtimes | grep Microsoft.NETCore.App | tail -n 1 | cut -d' ' -f2)
+          #DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
+          #"$DOTNET_ROOT/dotnet" "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ')  -target:library -out:csharpfrompython.dll csharpfrompython.cs
 
       
 #      - uses: actions/upload-artifact@v4
