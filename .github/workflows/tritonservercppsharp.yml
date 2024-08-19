@@ -17,9 +17,9 @@ jobs:
             namespace CppSharpTransformer { class DllDemoGenerator : CppSharp.ILibrary {
                 public static void Main(string[] args) { CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); }
                 public void SetupPasses(CppSharp.Driver driver) { }
-                public void Preprocess(CppSharp.Driver driver, ASTContext ctx) { }
-                public void Postprocess(CppSharp.Driver driver, ASTContext ctx) { }
-                void ILibrary.Setup(CppSharp.Driver driver) { }
+                public void Preprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
+                public void Postprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
+                void CppSharp.ILibrary.Setup(CppSharp.Driver driver) { }
                 void Setup(CppSharp.Driver driver) {
                     var options = driver.Options;
                     options.GeneratorKind = GeneratorKind.CSharp;
