@@ -11,8 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Clone CppSharp
-
       - name: Clone and build CppSharp
         run: |
           git clone --single-branch --depth 1 https://github.com/mono/CppSharp
