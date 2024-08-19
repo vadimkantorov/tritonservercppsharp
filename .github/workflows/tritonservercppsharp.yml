@@ -56,9 +56,9 @@ jobs:
           #ls $DOTNET_ROOT/shared/Microsoft.NETCore.App
           #DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
           
-          mkdir output
           cp ./CppSharp/bin/Release_x64/libCppSharp.CppParser.so ./CppSharp/bin/Release_x64/libStd-symbols.so .
-          ./CppSharp/bin/Release_x64/CSharp.Gen -I core/include/triton/core -o ./output/
+          
+          mkdir output && ./CppSharp/bin/Release_x64/CSharp.Gen -I core/include/triton/core -o ./output/
           
           
           #DOTNETSDKVER=$(dotnet --version)
@@ -77,7 +77,7 @@ jobs:
           #find CppSharp/bin -name "*.dll" -o -name "*.so" -exec cp {} . ';'
           #./tritonservercppsharp
           #strace -ff dotnet tritonservercppsharp.exe || true
-          dotnet run
+          LD_PRELOAD=$PWD/libCppSharp.CppParser.so dotnet run
 
       
 #      - uses: actions/upload-artifact@v4
