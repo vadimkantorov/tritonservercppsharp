@@ -70,7 +70,7 @@ jobs:
           echo '{"runtimeOptions":{"framework":{"name":"Microsoft.NETCore.App","version":"'$DOTNETFWKVER'"}}}' > tritonservercppsharp.runtimeconfig.json
           echo BEFORE
           find CppSharp/bin -name "*.dll" -o -name "*.so" -exec cp {} . ';'
-          strace dotnet tritonservercppsharp.exe
+          dotnet tritonservercppsharp.exe
 
       
 #      - uses: actions/upload-artifact@v4
