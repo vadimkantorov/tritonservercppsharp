@@ -28,11 +28,11 @@ jobs:
               var options = driver.Options;
               options.GeneratorKind = CppSharp.Generators.GeneratorKind.CSharp;
               var module = options.AddModule("TritonServerCppSharp");
-              module.IncludeDirs.Add("core/include");
-              module.Headers.Add("triton/core/tritonserver.h");
-              module.Headers.Add("triton/core/tritonbackend.h");
-              module.Headers.Add("triton/core/tritoncache.h");
-              module.Headers.Add("triton/core/tritonrepoagent.h");
+              module.IncludeDirs.Add("core/include/triton/core");
+              module.Headers.Add("tritonserver.h");
+              module.Headers.Add("tritonbackend.h");
+              module.Headers.Add("tritoncache.h");
+              module.Headers.Add("tritonrepoagent.h");
               //module.LibraryDirs.Add("/path/to/triton/server.so");
               //module.Libraries.Add("tritonserver.so");
               } } }
@@ -50,13 +50,16 @@ jobs:
 
       - name: Generating bindings
         run: |
-          ./CppSharp/bin/Release_x64/CSharp.Gen
-          
           git clone --single-branch --depth 1 https://github.com/triton-inference-server/core
           dotnet --version
           dotnet --list-runtimes 
-          ls $DOTNET_ROOT/shared/Microsoft.NETCore.App
-          DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
+          #ls $DOTNET_ROOT/shared/Microsoft.NETCore.App
+          #DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
+          
+          mkdir output
+          cp ./CppSharp/bin/Release_x64/CppSharp.CppParser.so .
+          ./CppSharp/bin/Release_x64/CSharp.Gen -I core/include/triton/core -o ./output/
+          
           
           #DOTNETSDKVER=$(dotnet --version)
           #DOTNETFWKVER=$(dotnet --list-runtimes | grep Microsoft.NETCore.App | tail -n 1 | cut -d " " -f2)
@@ -74,7 +77,6 @@ jobs:
           #find CppSharp/bin -name "*.dll" -o -name "*.so" -exec cp {} . ';'
           #./tritonservercppsharp
           #strace -ff dotnet tritonservercppsharp.exe || true
-          cp ./CppSharp/bin/Release_x64/CppSharp.CppParser.so .
           dotnet run
 
       
