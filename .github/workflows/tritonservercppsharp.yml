@@ -26,6 +26,9 @@ jobs:
                     var module = options.AddModule("TritonServerCppSharp");
                     module.IncludeDirs.Add("core/include");
                     module.Headers.Add("triton/core/tritonserver.h");
+                    module.Headers.Add("triton/core/tritonbackend.h");
+                    module.Headers.Add("triton/core/tritoncache.h");
+                    module.Headers.Add("triton/core/tritonrepoagent.h");
                     //module.LibraryDirs.Add("/path/to/triton/server.so");
                     //module.Libraries.Add("tritonserver.so");
                 }
