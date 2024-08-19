@@ -25,6 +25,7 @@ jobs:
 
       - name: Generating bindings
         run: |
+          ./CppSharp/bin/Release_x64/CLI.Gen
           git clone --single-branch --depth 1 https://github.com/triton-inference-server/core
           #"$HOME/.dotnet"
           DOTNET_ROOT=/usr/share/dotnet
