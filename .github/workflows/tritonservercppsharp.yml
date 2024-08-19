@@ -52,7 +52,8 @@ jobs:
           DOTNETSDKVER=$(dotnet --version)
           DOTNETFWKVER=$(dotnet --list-runtimes | grep Microsoft.NETCore.App | tail -n 1 | cut -d " " -f2)
           DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
-          LD_LIBRARY_PATH=CppSharp/bin/Release_x64/ dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" -r:CppSharp/bin/Release_x64/CppSharp.dll -r:CppSharp/bin/Release_x64/CppSharp.AST.dll -r:CppSharp/bin/Release_x64/CppSharp.Parser.dll $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ')  -target:library -out:tritonservercppsharp.exe tritonservercppsharp.cs || true
+          # -r:CppSharp/bin/Release_x64/CppSharp.dll -r:CppSharp/bin/Release_x64/CppSharp.AST.dll -r:CppSharp/bin/Release_x64/CppSharp.Parser.dll
+          LD_LIBRARY_PATH=CppSharp/bin/Release_x64/ dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll"  $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') $(find CppSharp/bin/ -name "*.dll" -printf '-r:"%p" ')  -target:library -out:tritonservercppsharp.exe tritonservercppsharp.cs || true
           dotnet tritonservercppsharp.exe || true
 
       
