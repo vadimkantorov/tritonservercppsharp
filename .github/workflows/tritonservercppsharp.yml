@@ -27,7 +27,7 @@ jobs:
               public void Setup(CppSharp.Driver driver) {
               var options = driver.Options;
               options.GeneratorKind = CppSharp.Generators.GeneratorKind.CSharp;
-              var module = options.AddModule("TritonServerCppSharp");
+              var module = options.AddModule("tritonserver");
               module.IncludeDirs.Add(".");
               module.IncludeDirs.Add("core/include");
               module.Headers.Add("core/include/triton/core/tritonserver.h");
@@ -53,37 +53,15 @@ jobs:
         run: |
           git clone --single-branch --depth 1 --branch r24.08 https://github.com/triton-inference-server/core
           git clone --single-branch --depth 1 --branch r24.08 https://github.com/triton-inference-server/developer_tools
-          dotnet --version
-          dotnet --list-runtimes 
-          #ls $DOTNET_ROOT/shared/Microsoft.NETCore.App
-          #DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
           
           cp -r ./CppSharp/bin/Release_x64/libCppSharp.CppParser.so ./CppSharp/bin/Release_x64/libStd-symbols.so ./CppSharp/bin/Release_x64/lib .
           
-          mkdir output && ./CppSharp/bin/Release_x64/CppSharp.CLI -g csharp -p linux -a x64 -o ./output/ -I=core/include core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
+          ./CppSharp/bin/Release_x64/CppSharp.CLI -m tritonserver -g csharp -p linux -a x64 -o ./output/ -I=core/include core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
           echo AFTER CLI
           
-          #DOTNETSDKVER=$(dotnet --version)
-          #DOTNETFWKVER=$(dotnet --list-runtimes | grep Microsoft.NETCore.App | tail -n 1 | cut -d " " -f2)
-          
-          #echo 'namespace ProgramNamespace { public static class Program { public static void Main(string[] args) { System.Console.WriteLine("Hello world!"); } } }' > footest.cs
-          #dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') -target:exe -out:footest.exe footest.cs
-          #echo '{"runtimeOptions":{"framework":{"name":"Microsoft.NETCore.App","version":"'$DOTNETFWKVER'"}}}' > footest.runtimeconfig.json
-          #dotnet footest.exe
-          #mkdir testproj && cd testproj
-          #dotnet new console
-          #cd ..
-
-          #dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') $(find CppSharp/bin -name "*.dll" -printf '-r:"%p" ') -target:exe -out:tritonservercppsharp tritonservercppsharp.cs
-          #echo '{"runtimeOptions":{"framework":{"name":"Microsoft.NETCore.App","version":"'$DOTNETFWKVER'"}}}' > tritonservercppsharp.runtimeconfig.json
-          #find CppSharp/bin -name "*.dll" -o -name "*.so" -exec cp {} . ';'
-          #./tritonservercppsharp
-          #strace -ff dotnet tritonservercppsharp.exe || true
-          echo BEFORE
-          mkdir -p bin/x64/Debug/net8.0
-          cp -r lib bin/x64/Debug/net8.0/lib
-          LD_PRELOAD=$PWD/libCppSharp.CppParser.so:$PWD/libStd-symbols.so dotnet run
-          find -name 'Std.cs'
+          mkdir -p bin/x64/Release/net8.0
+          cp -r lib bin/x64/Release/net8.0/lib
+          LD_PRELOAD=$PWD/libCppSharp.CppParser.so:$PWD/libStd-symbols.so dotnet run -c Release
 
       
       - uses: actions/upload-artifact@v4
