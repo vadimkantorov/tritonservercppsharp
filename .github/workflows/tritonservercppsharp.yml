@@ -17,6 +17,7 @@ jobs:
 
       - name: Write down the bindings code
         run: |
+          echo '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework></PropertyGroup></Project>' > tritonservercppsharp.csproj 
           tee tritonservercppsharp.cs <<EOF
               namespace CppSharpTransformer { public class DllDemoGenerator : CppSharp.ILibrary {
               public static void Main(string[] args) { CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); }
@@ -36,10 +37,6 @@ jobs:
               //module.Libraries.Add("tritonserver.so");
               } } }
           EOF
-          echo '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework></PropertyGroup>' > tritonservercppsharp.csproj 
-
-</Project>
-
 
       - name: Clone and build CppSharp
         run: |
@@ -72,9 +69,10 @@ jobs:
           #dotnet new console
           #cd ..
 
-          #dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') $(find CppSharp/bin -name "*.dll" -printf '-r:"%p" ') -target:exe -out:tritonservercppsharp.exe tritonservercppsharp.cs
+          #dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') $(find CppSharp/bin -name "*.dll" -printf '-r:"%p" ') -target:exe -out:tritonservercppsharp tritonservercppsharp.cs
           #echo '{"runtimeOptions":{"framework":{"name":"Microsoft.NETCore.App","version":"'$DOTNETFWKVER'"}}}' > tritonservercppsharp.runtimeconfig.json
           #find CppSharp/bin -name "*.dll" -o -name "*.so" -exec cp {} . ';'
+          #./tritonservercppsharp
           #strace -ff dotnet tritonservercppsharp.exe || true
           dotnet run
 
