@@ -14,8 +14,9 @@ jobs:
       - name: Write down the bindings code
         run: |
           tee tritonservercppsharp.cs <<EOF
-            namespace CppSharpTransformer { public class DllDemoGenerator : CppSharp.ILibrary {
-                public static void Main(string[] args) { CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); }
+            namespace CppSharpTransformer { 
+            public static class Program { public static void Main(string[] args) { CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); } }
+            public class DllDemoGenerator : CppSharp.ILibrary {
                 public void SetupPasses(CppSharp.Driver driver) { }
                 public void Preprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
                 public void Postprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
