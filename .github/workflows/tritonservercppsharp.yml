@@ -35,7 +35,6 @@ jobs:
 
       - name: Clone and build CppSharp
         run: |
-          #wget https://dot.net/v1/dotnet-install.sh && bash dotnet-install.sh --channel 9.0
           git clone --single-branch --depth 1 https://github.com/mono/CppSharp
           cd CppSharp
           bash build/build.sh generate -configuration Release -platform $PLATFORM
