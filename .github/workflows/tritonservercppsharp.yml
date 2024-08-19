@@ -68,6 +68,7 @@ jobs:
           export LD_LIBRARY_PATH=CppSharp/bin/Release_x64/
           dotnet "$DOTNET_ROOT/sdk/$DOTNETSDKVER/Roslyn/bincore/csc.dll" $(find "$DOTNETLIBDIR" -name "*.dll" -printf '-r:"%p" ') $(find CppSharp/bin -name "*.dll" -printf '-r:"%p" ') -target:exe -out:tritonservercppsharp.exe tritonservercppsharp.cs
           echo '{"runtimeOptions":{"framework":{"name":"Microsoft.NETCore.App","version":"'$DOTNETFWKVER'"}}}' > tritonservercppsharp.runtimeconfig.json
+          echo BEFORE
           dotnet tritonservercppsharp.exe
           find
 
