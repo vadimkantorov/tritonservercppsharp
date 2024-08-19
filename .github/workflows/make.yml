@@ -13,6 +13,7 @@ jobs:
 
       - name: Clone and build CppSharp
         run: |
+          #wget https://dot.net/v1/dotnet-install.sh && bash dotnet-install.sh --channel 9.0
           git clone --single-branch --depth 1 https://github.com/mono/CppSharp
           cd CppSharp
           bash build/build.sh generate -configuration Release -platform $PLATFORM
@@ -26,7 +27,8 @@ jobs:
           dotnet --version
           msbuild --version
           git clone --single-branch --depth 1 https://github.com/triton-inference-server/core
-          DOTNET_ROOT="$HOME/.dotnet"
+          #"$HOME/.dotnet"
+          DOTNET_ROOT=/usr/share/dotnet
           DOTNETSDKVER=$(dotnet --version)
           DOTNETFWKVER=$(dotnet --list-runtimes | grep Microsoft.NETCore.App | tail -n 1 | cut -d " " -f2)
           DOTNETLIBDIR="$DOTNET_ROOT/shared/Microsoft.NETCore.App/$DOTNETFWKVER"
