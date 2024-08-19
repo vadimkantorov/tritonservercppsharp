@@ -50,7 +50,7 @@ jobs:
 
       - name: Generating bindings
         run: |
-          find ./CppSharp/bin/ -type executable
+          find ./CppSharp/bin/ -type f -executable
           
           git clone --single-branch --depth 1 https://github.com/triton-inference-server/core
           dotnet --version
