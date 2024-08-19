@@ -62,7 +62,7 @@ jobs:
           echo AFTER CLI
           
           mkdir -p bin/x64/Release/net8.0 && cp -r ./CppSharp/bin/Release_x64/lib bin/x64/Release/net8.0/lib
-          LD_PRELOAD=$PWD/libCppSharp.CppParser.so:$PWD/libStd-symbols.so dotnet run -c Release
+          LD_PRELOAD=$PWD/CppSharp/bin/Release_x64/libCppSharp.CppParser.so:$PWD/CppSharp/bin/Release_x64/libStd-symbols.so dotnet run -c Release
 
       
       - uses: actions/upload-artifact@v4
