@@ -29,7 +29,7 @@ jobs:
         run: |
           ./CppSharp/bin/Release_x64/CppSharp.CLI -m tritonserver -g csharp -p linux -a x64 -o ./variant1/ -I=core/include core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
           
-          ./CppSharp/bin/Release_x64/CppSharp.CLI -m tritondevelopertoolsserver -g csharp -p linux -a x64 -o ./variant3/ -I=core/include -I=include/triton/developer_tools developer_tools/server/include/triton/developer_tools/server_wrapper.h developer_tools/server/include/triton/developer_tools/generic_server_wrapper.h
+          ./CppSharp/bin/Release_x64/CppSharp.CLI -m tritondevelopertoolsserver -g csharp -p linux -a x64 -o ./variant3/ -I=core/include -I=developer_tools/server/include/triton/developer_tools developer_tools/server/include/triton/developer_tools/server_wrapper.h developer_tools/server/include/triton/developer_tools/generic_server_wrapper.h
       
       - name: Variant 2
         run: |
