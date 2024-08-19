@@ -13,7 +13,7 @@ jobs:
 
       - name: Test heredoc
         run: |
-          cat << EOF > myfile.cs
+          tee myfile.cs <<EOF
             These contents will be written to the file.
             This line is indented.
           EOF
