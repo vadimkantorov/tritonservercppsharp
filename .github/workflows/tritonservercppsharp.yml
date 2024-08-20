@@ -14,7 +14,7 @@ jobs:
       - name: Clone tritonserver
         run: |
           git clone --single-branch --depth 1 --branch r24.08 https://github.com/triton-inference-server/core
-          git clone --single-branch --depth 1 --branch r24.08 https://github.com/triton-inference-server/developer_tools
+          #git clone --single-branch --depth 1 --branch r24.08 https://github.com/triton-inference-server/developer_tools
 
       - name: Clone and build CppSharp
         run: |
@@ -29,40 +29,39 @@ jobs:
         run: |
           ./CppSharp/bin/Release_x64/CppSharp.CLI -m tritonserver -g csharp -p linux -a x64 -o ./variant1/ -I=core/include core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
           
-          ./CppSharp/bin/Release_x64/CppSharp.CLI -m tritondevelopertoolsserver -g csharp -p linux -a x64 -o ./variant3/ -I=developer_tools/server/include -I=core/include -I=developer_tools/server/include/triton/developer_tools developer_tools/server/include/triton/developer_tools/server_wrapper.h developer_tools/server/include/triton/developer_tools/generic_server_wrapper.h developer_tools/server/include/triton/developer_tools/common.h
+          #./CppSharp/bin/Release_x64/CppSharp.CLI -m tritondevelopertoolsserver -g csharp -p linux -a x64 -o ./variant3/ -I=developer_tools/server/include -I=core/include -I=developer_tools/server/include/triton/developer_tools developer_tools/server/include/triton/developer_tools/server_wrapper.h developer_tools/server/include/triton/developer_tools/generic_server_wrapper.h developer_tools/server/include/triton/developer_tools/common.h
       
-#      - name: Variant 2
-#        run: |
-#          echo '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultItems>false</EnableDefaultItems></PropertyGroup><ItemGroup><Compile Remove="**/*.cs"/><Compile Include="tritonservercppsharp.cs"/><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Runtime.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.AST.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Generator.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.CLI.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.CSharp.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.Bootstrap.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.Gen.dll</HintPath></Reference></ItemGroup></Project>' > tritonservercppsharp.csproj 
-#          tee tritonservercppsharp.cs <<EOF
-#              namespace CppSharpTransformer { public class DllDemoGenerator : CppSharp.ILibrary {
-#              public static void Main(string[] args) { CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); }
-#              public void SetupPasses(CppSharp.Driver driver) { }
-#              public void Preprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
-#              public void Postprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
-#              public void Setup(CppSharp.Driver driver) {
-#              var options = driver.Options;
-#              options.GeneratorKind = CppSharp.Generators.GeneratorKind.CSharp;
-#              var module = options.AddModule("tritonserver");
-#              options.OutputDir = "variant2";
-#              module.IncludeDirs.Add(".");
-#              module.IncludeDirs.Add("core/include");
-#              module.Headers.Add("core/include/triton/core/tritonserver.h");
-#              module.Headers.Add("core/include/triton/core/tritonbackend.h");
-#              module.Headers.Add("core/include/triton/core/tritoncache.h");
-#              module.Headers.Add("core/include/triton/core/tritonrepoagent.h");
-#              //module.LibraryDirs.Add("/path/to/triton/server.so");
-#              //module.Libraries.Add("tritonserver.so");
-#              } } }
-#          EOF
-#
-#          mkdir -p bin/x64/Release/$FRAMEWORKDOT && cp -r ./CppSharp/bin/Release_x64/lib bin/x64/Release/$FRAMEWORKDOT/lib
-#          LD_PRELOAD=$PWD/CppSharp/bin/Release_x64/libCppSharp.CppParser.so:$PWD/CppSharp/bin/Release_x64/libStd-symbols.so dotnet run -c Release
-#
-#      
-#      - uses: actions/upload-artifact@v4
-#        with:
-#          path: |
-#            variant1/
-#            variant2/
-#            variant3/
+      - name: Variant 2
+        run: |
+          echo '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultItems>false</EnableDefaultItems></PropertyGroup><ItemGroup><Compile Remove="**/*.cs"/><Compile Include="tritonservercppsharp.cs"/><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Runtime.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.AST.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Generator.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.CLI.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.CSharp.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.Bootstrap.dll</HintPath></Reference><Reference Include="MyAssembly"><HintPath>./CppSharp/bin/Release_x64/CppSharp.Parser.Gen.dll</HintPath></Reference></ItemGroup></Project>' > tritonservercppsharp.csproj 
+          tee tritonservercppsharp.cs <<EOF
+              namespace CppSharpTransformer { public class DllDemoGenerator : CppSharp.ILibrary {
+              public static void Main(string[] args) { CppSharp.ConsoleDriver.Run(new DllDemoGenerator()); }
+              public void SetupPasses(CppSharp.Driver driver) { }
+              public void Preprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
+              public void Postprocess(CppSharp.Driver driver, CppSharp.AST.ASTContext ctx) { }
+              public void Setup(CppSharp.Driver driver) {
+              var options = driver.Options;
+              options.GeneratorKind = CppSharp.Generators.GeneratorKind.CSharp;
+              var module = options.AddModule("tritonserver");
+              options.OutputDir = "variant2";
+              module.IncludeDirs.Add(".");
+              module.IncludeDirs.Add("core/include");
+              module.Headers.Add("core/include/triton/core/tritonserver.h");
+              module.Headers.Add("core/include/triton/core/tritonbackend.h");
+              module.Headers.Add("core/include/triton/core/tritoncache.h");
+              module.Headers.Add("core/include/triton/core/tritonrepoagent.h");
+              //module.LibraryDirs.Add("/path/to/triton/server.so");
+              //module.Libraries.Add("tritonserver.so");
+              } } }
+          EOF
+
+          mkdir -p bin/x64/Release/$FRAMEWORKDOT && cp -r ./CppSharp/bin/Release_x64/lib bin/x64/Release/$FRAMEWORKDOT/lib
+          LD_PRELOAD=$PWD/CppSharp/bin/Release_x64/libCppSharp.CppParser.so:$PWD/CppSharp/bin/Release_x64/libStd-symbols.so dotnet run -c Release
+
+      
+      - uses: actions/upload-artifact@v4
+        with:
+          path: |
+            variant1/
+            variant2/
