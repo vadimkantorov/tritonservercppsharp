@@ -26,10 +26,10 @@ jobs:
           bash build/build.sh -platform $PLATFORM -build_only -target-framework $FRAMEWORK
 
       - name: Variant 1
-        run: |
-          ./CppSharp/bin/Release_x64/CppSharp.CLI -m tritonserver -g csharp -p linux -a x64 -o ./variant1/ -I=core/include core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
+        run: ./CppSharp/bin/Release_x64/CppSharp.CLI -m tritonserver -g csharp -p linux -a x64 -o ./variant1/ -I=core/include core/include/triton/core/tritonserver.h core/include/triton/core/tritonbackend.h core/include/triton/core/tritoncache.h core/include/triton/core/tritonrepoagent.h
           
-          #./CppSharp/bin/Release_x64/CppSharp.CLI -m tritondevelopertoolsserver -g csharp -p linux -a x64 -o ./variant3/ -I=developer_tools/server/include -I=core/include -I=developer_tools/server/include/triton/developer_tools developer_tools/server/include/triton/developer_tools/server_wrapper.h developer_tools/server/include/triton/developer_tools/generic_server_wrapper.h # developer_tools/server/include/triton/developer_tools/common.h # https://github.com/mono/CppSharp/issues/1860#issuecomment-2322838240
+      - name: Variant 3
+        run: ./CppSharp/bin/Release_x64/CppSharp.CLI -m tritondevelopertoolsserver -g csharp -p linux -a x64 -o ./variant3/ -I=developer_tools/server/include -I=core/include -I=developer_tools/server/include/triton/developer_tools developer_tools/server/include/triton/developer_tools/server_wrapper.h developer_tools/server/include/triton/developer_tools/generic_server_wrapper.h || true  # developer_tools/server/include/triton/developer_tools/common.h # https://github.com/mono/CppSharp/issues/1860#issuecomment-2322838240
       
       - name: Variant 2
         run: |
@@ -65,3 +65,4 @@ jobs:
           path: |
             variant1/
             variant2/
+            variant3/
